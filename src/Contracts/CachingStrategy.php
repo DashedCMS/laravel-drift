@@ -1,8 +1,8 @@
 <?php
 
-namespace Flowframe\Drift\Contracts;
+namespace Dashed\Drift\Contracts;
 
-use Flowframe\Drift\Config;
+use Dashed\Drift\Config;
 use Intervention\Image\Image;
 
 interface CachingStrategy
@@ -11,5 +11,5 @@ interface CachingStrategy
 
     public function resolve(string $path, string $signature, Config $config): string;
 
-    public function cache(string $path, string $signature, Image $image, Config $config): void;
+    public function cache(string $path, string $signature, string|Image $image, Config $config): void;
 }

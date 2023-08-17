@@ -11,16 +11,18 @@ use Intervention\Image\Facades\Image;
 class ImagesController
 {
     public function __construct(
-        public DriftManager $driftManager,
+        public DriftManager             $driftManager,
         public ManipulationsTransformer $manipulationsTransformer,
-    ) {
+    )
+    {
     }
 
     public function __invoke(
         string $configName,
         string $manipulations,
         string $path,
-    ): Response {
+    ): Response
+    {
         $signature = request('signature');
 
         /** @var \Dashed\Drift\Config|null $config */
@@ -40,11 +42,17 @@ class ImagesController
         if ($cachingStrategy->validate($path, $signature, $config)) {
             $cachedImage = $cachingStrategy->resolve($path, $signature, $config);
 
-            $image = Image::make($cachedImage);
+            if (!str($path)->endsWith('.svg')) {
+                $image = Image::make($cachedImage);
 
-            $image->encode((string) str($image->mime())->afterLast('/'));
+                $image->encode((string)str($image->mime())->afterLast('/'));
+                $mime = $image->mime();
+            }else{
+                $image = $cachedImage;
+                $mime = 'image/svg+xml';
+            }
 
-            return response((string) $image)->header('Content-Type', $image->mime());
+            return response((string)$image)->header('Content-Type', $mime);
         }
 
         abort_unless(
@@ -53,18 +61,28 @@ class ImagesController
             'Image not found',
         );
 
-        $image = Image::make(
-            Storage::disk($config->filesystemDisk)->get($path),
-        );
+        $image = Storage::disk($config->filesystemDisk)->get($path);
+        if (!str($path)->endsWith('.svg')) {
+//        try {
+            $image = Image::make(
+                $image,
+            );
+            $mime = $image->mime();
+//        }catch (\Exception $e) {
+//            dd($e);
+//        }
 
-        foreach ($this->manipulationsTransformer->decode($manipulations) as $method => $arguments) {
-            is_array($arguments)
-                ? $image->{$method}(...$arguments)
-                : $image->{$method}($arguments);
+            foreach ($this->manipulationsTransformer->decode($manipulations) as $method => $arguments) {
+                is_array($arguments)
+                    ? $image->{$method}(...$arguments)
+                    : $image->{$method}($arguments);
+            }
+        }else{
+            $mime = 'image/svg+xml';
         }
 
         $cachingStrategy->cache($path, $signature, $image, $config);
 
-        return response((string) $image)->header('Content-Type', $image->mime());
+        return response((string)$image)->header('Content-Type', $mime);
     }
 }
