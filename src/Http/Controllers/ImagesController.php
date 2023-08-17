@@ -42,17 +42,16 @@ class ImagesController
         if ($cachingStrategy->validate($path, $signature, $config)) {
             $cachedImage = $cachingStrategy->resolve($path, $signature, $config);
 
-            if (!str($path)->endsWith('.svg')) {
+            if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp'])) {
                 $image = Image::make($cachedImage);
 
                 $image->encode((string)str($image->mime())->afterLast('/'));
                 $mime = $image->mime();
             }else{
                 $image = $cachedImage;
-                $mime = 'image/svg+xml';
             }
 
-            return response((string)$image)->header('Content-Type', $mime);
+            return response((string)$image)->header('Content-Type', $mime ?? Storage::mimeType($path));
         }
 
         abort_unless(
@@ -62,7 +61,7 @@ class ImagesController
         );
 
         $image = Storage::disk($config->filesystemDisk)->get($path);
-        if (!str($path)->endsWith('.svg')) {
+        if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp'])) {
 //        try {
             $image = Image::make(
                 $image,
@@ -77,12 +76,10 @@ class ImagesController
                     ? $image->{$method}(...$arguments)
                     : $image->{$method}($arguments);
             }
-        }else{
-            $mime = 'image/svg+xml';
         }
 
         $cachingStrategy->cache($path, $signature, $image, $config);
 
-        return response((string)$image)->header('Content-Type', $mime);
+        return response((string)$image)->header('Content-Type', $mime ?? Storage::mimeType($path));
     }
 }

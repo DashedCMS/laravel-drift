@@ -19,7 +19,7 @@ class UrlBuilder
 
         $encodedManipulations = $this->manipulationsTransformer->encode($manipulations);
 
-        return URL::signedRoute('__images.manipulate', [
+        return URL::signedRoute('__media.manipulate', [
             $configName,
             $encodedManipulations,
             $path,
