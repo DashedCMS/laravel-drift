@@ -5,6 +5,6 @@
 ])
 
 <img
-    src="{{ app(\Flowframe\Drift\UrlBuilder::class)->url($config, $path, $manipulations) }}"
+    src="{{ app(\Dashed\Drift\UrlBuilder::class)->url($config, $path, $manipulations) }}"
     {{ $attributes }}
 >
