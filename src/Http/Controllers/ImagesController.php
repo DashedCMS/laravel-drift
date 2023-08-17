@@ -42,12 +42,12 @@ class ImagesController
         if ($cachingStrategy->validate($path, $signature, $config)) {
             $cachedImage = $cachingStrategy->resolve($path, $signature, $config);
 
-            if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp'])) {
+            if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp']) && !in_array('keepOriginal', array_values($this->manipulationsTransformer->decode($manipulations)))) {
                 $image = Image::make($cachedImage);
 
                 $image->encode((string)str($image->mime())->afterLast('/'));
                 $mime = $image->mime();
-            }else{
+            } else {
                 $image = $cachedImage;
             }
 
@@ -61,7 +61,7 @@ class ImagesController
         );
 
         $image = Storage::disk($config->filesystemDisk)->get($path);
-        if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp'])) {
+        if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp']) && !in_array('keepOriginal', array_values($this->manipulationsTransformer->decode($manipulations)))) {
 //        try {
             $image = Image::make(
                 $image,
