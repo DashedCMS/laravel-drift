@@ -1,6 +1,6 @@
 <?php
 
-namespace Flowframe\Drift;
+namespace Dashed\Drift;
 
 use Illuminate\Support\Facades\URL;
 

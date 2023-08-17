@@ -1,17 +1,17 @@
 {
-    "name": "flowframe/laravel-drift",
+    "name": "dashed/laravel-drift",
     "type": "library",
     "license": "MIT",
-    "homepage": "https://github.com/flowframe/laravel-drift",
+    "homepage": "https://github.com/dashed/laravel-drift",
     "autoload": {
         "psr-4": {
-            "Flowframe\\Drift\\": "src"
+            "Dashed\\Drift\\": "src"
         }
     },
     "authors": [
         {
-            "name": "Lars Klopstra",
-            "email": "lars@flowframe.nl"
+            "name": "Robin van Maasakker",
+            "email": "robin@dashed.nl"
         }
     ],
     "require": {
@@ -23,7 +23,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Flowframe\\Drift\\DriftServiceProvider"
+                "Dashed\\Drift\\DriftServiceProvider"
             ]
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flowframe\Drift;
+namespace Dashed\Drift;
 
 class ManipulationsTransformer
 {
