@@ -18,7 +18,7 @@ class NullCachingStrategy implements CachingStrategy
         return '';
     }
 
-    public function cache(string $path, string $signature, Image $image, Config $config): void
+    public function cache(string $path, string $signature, string|Image $image, Config $config): void
     {
     }
 }

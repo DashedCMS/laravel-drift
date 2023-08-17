@@ -11,17 +11,18 @@ class FilesystemCachingStrategy implements CachingStrategy
 {
     public function validate(string $path, string $signature, Config $config): bool
     {
-        return Storage::exists("__media-cache/{$path}/{$signature}");
+        //get default disk from config
+        return Storage::disk($config->filesystemDisk)->exists("__media-cache/{$path}/{$signature}");
     }
 
     public function resolve(string $path, string $signature, Config $config): string
     {
-        return Storage::get("__media-cache/{$path}/{$signature}");
+        return Storage::disk($config->filesystemDisk)->get("__media-cache/{$path}/{$signature}");
     }
 
     public function cache(string $path, string $signature, string|Image $image, Config $config): void
     {
         //Todo: put the width and height in the cache
-        Storage::put("__media-cache/{$path}/{$signature}", (string) $image);
+        Storage::disk($config->filesystemDisk)->put("__media-cache/{$path}/{$signature}", (string) $image);
     }
 }

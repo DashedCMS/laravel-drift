@@ -51,7 +51,7 @@ class ImagesController
                 $image = $cachedImage;
             }
 
-            return response((string)$image)->header('Content-Type', $mime ?? Storage::mimeType($path));
+            return response((string)$image)->header('Content-Type', $mime ?? Storage::disk($config->filesystemDisk)->mimeType($path));
         }
 
         abort_unless(
@@ -80,6 +80,6 @@ class ImagesController
 
         $cachingStrategy->cache($path, $signature, $image, $config);
 
-        return response((string)$image)->header('Content-Type', $mime ?? Storage::mimeType($path));
+        return response((string)$image)->header('Content-Type', $mime ?? Storage::disk($config->filesystemDisk)->mimeType($path));
     }
 }
