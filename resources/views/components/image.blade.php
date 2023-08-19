@@ -5,10 +5,10 @@
 ])
 @php
     $url = app(\Dashed\Drift\UrlBuilder::class)->url($config, $path, $manipulations);
-                    $size = app(\Dashed\Drift\UrlBuilder::class)->size($url);
+//                    $size = app(\Dashed\Drift\UrlBuilder::class)->size($url);
 @endphp
 <img
         src="{{ $url }}"
         {{ $attributes }}
-        @if($size) width="{{ $size['width'] }}"   height="{{ $size['height'] }}" @endif
+        @if($size ?? false) width="{{ $size['width'] }}"   height="{{ $size['height'] }}" @endif
 >
