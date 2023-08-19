@@ -3,8 +3,12 @@
     'path',
     'manipulations' => [],
 ])
-
+@php
+    $url = app(\Dashed\Drift\UrlBuilder::class)->url($config, $path, $manipulations);
+                    $size = app(\Dashed\Drift\UrlBuilder::class)->size($url);
+@endphp
 <img
-    src="{{ app(\Dashed\Drift\UrlBuilder::class)->url($config, $path, $manipulations) }}"
-    {{ $attributes }}
+        src="{{ $url }}"
+        {{ $attributes }}
+        @if($size) width="{{ $size['width'] }}"   height="{{ $size['height'] }}" @endif
 >
