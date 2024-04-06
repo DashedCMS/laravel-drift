@@ -62,14 +62,10 @@ class ImagesController
 
         $image = Storage::disk($config->filesystemDisk)->get($path);
         if (str($path)->lower()->endsWith(['.png', '.jpg', '.jpeg', '.webp']) && !in_array('keepOriginal', array_values($this->manipulationsTransformer->decode($manipulations)))) {
-//        try {
             $image = Image::make(
                 $image,
             );
             $mime = $image->mime();
-//        }catch (\Exception $e) {
-//            dd($e);
-//        }
 
             foreach ($this->manipulationsTransformer->decode($manipulations) as $method => $arguments) {
                 is_array($arguments)

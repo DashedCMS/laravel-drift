@@ -8,6 +8,7 @@ class Config
         public string $name,
         public string $filesystemDisk,
         public string $cachingStrategy,
+        public bool $forceLazyLoad = false
     ) {
     }
 }
