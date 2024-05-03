@@ -14,6 +14,6 @@
 <img
         src="{{ $url }}"
         {{ $attributes }}
-        @if($lazyLoad) loading="lazy" @endif
+        @if($lazyLoad && !array_key_exists('loading', collect($attributes)->toArray())) loading="lazy" @endif
         @if($size ?? false) width="{{ $size['width'] }}" height="{{ $size['height'] }}" @endif
 >
