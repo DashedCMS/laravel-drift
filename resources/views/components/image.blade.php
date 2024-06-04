@@ -8,11 +8,11 @@
     'conversion' => 'medium',
     'class' => ''
 ])
-@if((int)$path == $path)
+@if(($path->id ?? false) || (int)$path == $path)
     <x-dashed-files::image
             class="{{ $class }}"
             loading="{{ $loading }}"
-            :mediaId="$path"
+            :mediaId="$path->id ?? $path"
             conversion="{{ $conversion }}"
     />
 @else
