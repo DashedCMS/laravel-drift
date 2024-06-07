@@ -14,6 +14,7 @@
             loading="{{ $loading }}"
             :mediaId="$path->id ?? $path"
             conversion="{{ $conversion }}"
+            manipulations="{{ $manipulations }}"
     />
 @else
     @php
