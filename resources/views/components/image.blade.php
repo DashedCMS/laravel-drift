@@ -10,11 +10,11 @@
 ])
 @if(($path->id ?? false) || (int)$path == $path)
     <x-dashed-files::image
-            class="{{ $class }}"
-            loading="{{ $loading }}"
+            :class="$class"
+            :loading="$loading"
             :mediaId="$path->id ?? $path"
-            conversion="{{ $conversion }}"
-            manipulations="{{ $manipulations }}"
+            :conversion="$conversion"
+            :manipulations="$manipulations"
     />
 @else
     @php
