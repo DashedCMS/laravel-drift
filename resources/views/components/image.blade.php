@@ -19,8 +19,8 @@
 @else
     @php
         $url = app(\Dashed\Drift\UrlBuilder::class)->url($config, $path, $manipulations);
-        $lazyLoad = app(\Dashed\Drift\DriftManager::class)->configs()->where('name', $config)->first()->forceLazyLoad;
-        $showSizes = app(\Dashed\Drift\DriftManager::class)->configs()->where('name', $config)->first()->showSizes;
+        $lazyLoad = app(\Dashed\Drift\DriftManager::class)->configs()->where('name', $config)->first()->forceLazyLoad ?? false;
+        $showSizes = app(\Dashed\Drift\DriftManager::class)->configs()->where('name', $config)->first()->showSizes ?? false;
         if($showSizes){
             $size = app(\Dashed\Drift\UrlBuilder::class)->size($url);
         }
