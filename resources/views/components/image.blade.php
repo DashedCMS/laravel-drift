@@ -16,7 +16,7 @@
             :conversion="$conversion"
             :manipulations="$manipulations"
     />
-@else
+@elseif($path)
     @php
         $url = app(\Dashed\Drift\UrlBuilder::class)->url($config, $path, $manipulations);
         $lazyLoad = app(\Dashed\Drift\DriftManager::class)->configs()->where('name', $config)->first()->forceLazyLoad ?? false;
